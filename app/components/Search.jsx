@@ -7,7 +7,7 @@ const PostCard = ({ post }) => {
   const topicAddress = post.user.login + "/" + post.topic.repo.name + "/topics/" + post.topic.id;
   const topicUrl = "/@" + topicAddress;
 
-  const rendered = marked(post.text, {gfm: true});
+  const rendered = marked(post.text, {gfm: true, sanitize: true});
 
   return <article className="post animated-item-view animated-item-view-end">
     <a className="post-avatar-container" href={userUrl}>
