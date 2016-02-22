@@ -6,7 +6,7 @@ export default Exim.createStore({
   ],
 
   initial: {
-    user: null,
+    repos: null,
   },
 
   fetchForUser: {
