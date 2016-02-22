@@ -1,30 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import postsStore from 'stores/posts';
-
-const PostCard = ({ post }) => {
-  const userUrl = "/@" + post.user.login;
-  const topicAddress = post.user.login + "/" + post.topic.repo.name + "/topics/" + post.topic.id;
-  const topicUrl = "/@" + topicAddress;
-
-  const rendered = marked(post.text, {gfm: true, sanitize: true});
-
-  return <article className="post animated-item-view animated-item-view-end">
-    <a className="post-avatar-container" href={userUrl}>
-      <img className="post-avatar avatar" src={post.user.avatar_url} />
-    </a>
-    <div className="post-content">
-      <div className="post-header">
-        <a className="post-autor" href={userUrl}>{post.user.login}</a> in <a className="post-url" href={topicUrl}>{topicAddress}</a>
-        <time className="post-metadata post-date">
-          {moment(new Date(post.created_at)).fromNow()}
-        </time>
-      </div>
-      <div className="post-text" dangerouslySetInnerHTML={{__html: rendered}}>
-      </div>
-    </div>
-  </article>
-};
+import PostCard from 'components/PostCard';
 
 export default React.createClass({
   mixins: [postsStore.connect('postsLoading', 'posts')],
@@ -46,7 +22,7 @@ export default React.createClass({
       if (this.state.postsLoading) {
         posts = "Loading...";
       } else if (this.state.posts.length > 0) {
-        posts = this.state.posts.map(post => <PostCard post={post} />);
+        posts = this.state.posts.map(post => <PostCard post={post} inFeed={true} />);
       } else {
         posts = "No posts found.";
       }

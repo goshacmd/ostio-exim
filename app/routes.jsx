@@ -8,6 +8,7 @@ import Search from 'components/Search';
 import Profile from 'components/Profile';
 import Repos from 'components/Repos';
 import Repo from 'components/Repo'
+import Topic from 'components/Topic';
 
 const Routes = <Router history={browserHistory}>
   <Route path="/" component={App}>
@@ -16,7 +17,9 @@ const Routes = <Router history={browserHistory}>
     <Route path="/search" component={Search} />
     <Route path="/@:login" component={Profile}>
       <IndexRoute component={Repos} />
-      <Route path=":repo" component={Repo} />
+      <Route path=":repo/topics/:topic" component={Topic} />
+      <Route path=":repo" component={Repo}>
+      </Route>
     </Route>
   </Route>
 </Router>;
