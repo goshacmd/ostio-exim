@@ -45,8 +45,10 @@ export default React.createClass({
 
       if (this.state.postsLoading) {
         posts = "Loading...";
-      } else if (this.state.posts) {
+      } else if (this.state.posts.length > 0) {
         posts = this.state.posts.map(post => <PostCard post={post} />);
+      } else {
+        posts = "No posts found.";
       }
       searchResults = <div className="post-list-container">
         <h4>Posts matching query "{this.state.query}"</h4>
