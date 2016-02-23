@@ -1,7 +1,12 @@
 import React from 'react';
 import Header from 'components/Header';
+import usersStore from 'stores/users';
 
-export default class App extends React.Component {
+export default React.createClass({
+  componentDidMount() {
+    usersStore.actions.fetchCurrentUser();
+  },
+
   render() {
     return (
       <div id="site-container">
@@ -16,4 +21,4 @@ export default class App extends React.Component {
       </div>
     );
   }
-}
+});

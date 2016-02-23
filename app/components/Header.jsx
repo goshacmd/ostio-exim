@@ -1,27 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { api } from 'config';
+import usersStore from 'stores/users';
 
 const HeaderLink = ({ to, children }) => {
   return <h4 className="header-link"><Link to={to}>{children}</Link></h4>;
 };
 
-export default () => {
-  return (
-    <div className="header-container" id="header-container">
-      <header id="header" className="header">
-        <h1 className="header-logo">
-          <Link to="/">Ost.io</Link>
-        </h1>
+export default React.createClass({
+  mixins: [
+    usersStore.connect('currentUser')
+  ],
 
-        <div className="header-links">
-          <HeaderLink to="/feed">Feed</HeaderLink>
-          <HeaderLink to="/search">Search</HeaderLink>
-        </div>
+  getInitialState() { return {}; },
 
-        <div className="header-auth">
-          <a href="#" className="header-login-button button noscript">Login with GitHub</a>
-        </div>
-      </header>
-    </div>
-  );
-};
+  logout() {
+    usersStore.actions.logout();
+  },
+
+  render() {
+    const {protocol, host} = window.location;
+    const cbUrl = encodeURIComponent(protocol + '//' + host + '/auth-callback');
+    const loginUrl = api.root + '/auth/github/?origin=' + cbUrl;
+
+    const {currentUser} = this.state;
+
+    let auth;
+
+    if (currentUser) {
+      auth = [
+        <Link to={'/@' + currentUser.login}><img className="avatar header-avatar" src={currentUser.avatar_url} /></Link>,
+        <Link to={'/@' + currentUser.login}>{currentUser.login}</Link>,
+        <a href="#" className="icon icon-cog" />,
+        <a href="#" className="icon icon-logout" onClick={this.logout} />
+      ]
+    } else {
+      auth = <a href={loginUrl} className="header-login-button button noscript">Login with GitHub</a>;
+    }
+
+    return (
+      <div className="header-container" id="header-container">
+        <header id="header" className="header">
+          <h1 className="header-logo">
+            <Link to="/">Ost.io</Link>
+          </h1>
+
+          <div className="header-links">
+            <HeaderLink to="/feed">Feed</HeaderLink>
+            <HeaderLink to="/search">Search</HeaderLink>
+          </div>
+
+          <div className="header-auth">
+            {auth}
+          </div>
+        </header>
+      </div>
+    );
+  }
+});

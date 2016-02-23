@@ -1,4 +1,4 @@
-const api = 'http://api.ost.io/v1';
+import {api} from 'config';
 
 const serialize = data => {
   return Object.keys(data).map(key => {
@@ -8,14 +8,23 @@ const serialize = data => {
   }).join('&');
 };
 
+const getAccessData = () => {
+  const access_token = localStorage.getItem('accessToken');
+  if (access_token) {
+    return {access_token};
+  }
+  return {};
+};
+
 const request = {
   get(path, data) {
-    if (data) {
+    data = Object.assign(data || {}, getAccessData());
+    if (Object.keys(data).length > 0) {
       const st = path.indexOf('?') === 0 ? '&' : '?'
       path = path + st + serialize(data);
     }
 
-    return fetch(api + path).then(r => r.json());
+    return fetch(api.root + api.base + path).then(r => r.json());
   }
 };
 

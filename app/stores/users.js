@@ -4,10 +4,14 @@ import request from 'lib/request';
 export default Exim.createStore({
   actions: [
     'findUser',
-    'fetchLatest'
+    'fetchLatest',
+    'login',
+    'logout',
+    'fetchCurrentUser'
   ],
 
   initial: {
+    currentUser: null,
     user: null,
     users: null
   },
@@ -35,6 +39,27 @@ export default Exim.createStore({
     },
     did(data) {
       this.set('users', data);
+    }
+  },
+
+  login(accessToken) {
+    //if (this.get('currentUser')) return;
+    localStorage.setItem('accessToken', accessToken);
+    return this.actions.fetchCurrentUser();
+  },
+
+  logout() {
+    localStorage.removeItem('accessToken');
+    this.set('currentUser', null);
+  },
+
+  fetchCurrentUser: {
+    on() {
+      if (!localStorage.getItem('accessToken')) return;
+      return request.get('/users/me');
+    },
+    did(user) {
+      this.set('currentUser', user);
     }
   }
 })
