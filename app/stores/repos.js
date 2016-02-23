@@ -1,4 +1,5 @@
 import Exim from 'exim';
+import request from 'lib/request';
 
 export default Exim.createStore({
   actions: [
@@ -15,7 +16,7 @@ export default Exim.createStore({
     },
     on(login) {
       this.set('repos', null);
-      return fetch('http://api.ost.io/v1/users/'+login+'/repos').then(r => r.json());
+      return request.get('/users/'+login+'/repos');
     },
     did(data) {
       this.set('repos', data);

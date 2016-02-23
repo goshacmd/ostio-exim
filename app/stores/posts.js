@@ -1,4 +1,5 @@
 import Exim from 'exim';
+import request from 'lib/request';
 
 export default Exim.createStore({
   actions: [
@@ -17,7 +18,7 @@ export default Exim.createStore({
     },
     on(query) {
       this.set('posts', null);
-      return fetch('http://api.ost.io/v1/search?query='+query).then(r => r.json());
+      return request.get('/search', {query});
     },
     did(data) {
       this.set('posts', data);
@@ -30,7 +31,7 @@ export default Exim.createStore({
     },
     on() {
       this.set('posts', null);
-      return fetch('http://api.ost.io/v1/posts').then(r => r.json());
+      return request.get('/posts');
     },
     did(data) {
       this.set('posts', data);
@@ -43,7 +44,7 @@ export default Exim.createStore({
     },
     on(login, repo, topic) {
       this.set('posts', null);
-      return fetch('http://api.ost.io/v1/users/'+login+'/repos/'+repo+'/topics/'+topic+'/posts').then(r => r.json());
+      return request.get('/users/'+login+'/repos/'+repo+'/topics/'+topic+'/posts');
     },
     did(data) {
       this.set('posts', data);

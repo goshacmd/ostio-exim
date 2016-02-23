@@ -1,4 +1,5 @@
 import Exim from 'exim';
+import request from 'lib/request';
 
 export default Exim.createStore({
   actions: [
@@ -17,7 +18,7 @@ export default Exim.createStore({
     },
     on(login) {
       this.set('user', null);
-      return fetch('http://api.ost.io/v1/users/'+login).then(r => r.json());
+      return request.get('/users/'+login);
     },
     did(data) {
       this.set('user', data);
@@ -30,7 +31,7 @@ export default Exim.createStore({
     },
     on() {
       this.set('users', null);
-      return fetch('http://api.ost.io/v1/users/').then(r => r.json());
+      return request.get('/users/');
     },
     did(data) {
       this.set('users', data);
