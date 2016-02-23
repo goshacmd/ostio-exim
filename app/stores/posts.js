@@ -3,6 +3,7 @@ import Exim from 'exim';
 export default Exim.createStore({
   actions: [
     'search',
+    'fetchLatest',
     'fetchForUserRepoTopic'
   ],
 
@@ -17,6 +18,19 @@ export default Exim.createStore({
     on(query) {
       this.set('posts', null);
       return fetch('http://api.ost.io/v1/search?query='+query).then(r => r.json());
+    },
+    did(data) {
+      this.set('posts', data);
+    }
+  },
+
+  fetchLatest: {
+    while(postsLoading) {
+      this.set({postsLoading});
+    },
+    on() {
+      this.set('posts', null);
+      return fetch('http://api.ost.io/v1/posts').then(r => r.json());
     },
     did(data) {
       this.set('posts', data);

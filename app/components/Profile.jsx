@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from 'components/Avatar';
 import usersStore from 'stores/users';
 
 export default React.createClass({
@@ -15,7 +16,7 @@ export default React.createClass({
     if (!user || this.state.userLoading) return <div>Loading...</div>;
 
 
-    const avatar = <a className="navigation-link" href={"/@" + user.login}><img className="avatar" src={user.avatar_url} /></a>;
+    const avatar = <a className="navigation-link" href={"/@" + user.login}><Avatar url={user.avatar_url} /></a>;
     const userLink = <a className="navigation-link" href={"/@" + user.login} data-type="login">{user.login}</a>
 
     let repoLink;
