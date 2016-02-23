@@ -11,9 +11,11 @@ export default React.createClass({
     usersStore.actions.findUser(this.props.params.login);
   },
 
+  getInitialState() { return {}; },
+
   render() {
-    const user = this.state && this.state.user;
-    if (!user || this.state.userLoading) return <div>Loading...</div>;
+    const {user, userLoading} = this.state;
+    if (!user || userLoading) return <div>Loading...</div>;
 
 
     const avatar = <a className="navigation-link" href={"/@" + user.login}><Avatar url={user.avatar_url} /></a>;

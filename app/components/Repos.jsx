@@ -12,9 +12,11 @@ export default React.createClass({
     reposStore.actions.fetchForUser(this.props.params.login);
   },
 
+  getInitialState() { return {}; },
+
   render() {
-    const user = this.state && this.state.user;
-    const repositories = this.state && this.state.repos;
+    const user = this.state.user
+    const repositories = this.state.repos;
     let repos;
 
     if (!user) return;

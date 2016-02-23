@@ -22,8 +22,10 @@ export default React.createClass({
     topicsStore.actions.fetchForUserRepo(this.props.params.login, this.props.params.repo);
   },
 
+  getInitialState() { return {}; },
+
   render() {
-    const topics = this.state && this.state.topics;
+    const topics = this.state.topics;
     if (!topics) return <div>Loading...</div>;
 
     let tops;

@@ -14,9 +14,11 @@ export default React.createClass({
     postsStore.actions.fetchForUserRepoTopic(this.props.params.login, this.props.params.repo, this.props.params.topic);
   },
 
+  getInitialState() { return {}; },
+
   render() {
-    const topics = this.state && this.state.topics;
-    const posts = this.state && this.state.posts;
+    const topics = this.state.topics;
+    const posts = this.state.posts;
     const topic = topics && topics.find(topic => topic.number == this.props.params.topic);
 
     if (!topic) return <div>Loading...</div>;

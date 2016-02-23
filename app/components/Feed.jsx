@@ -15,6 +15,8 @@ export default React.createClass({
     usersStore.actions.fetchLatest();
   },
 
+  getInitialState() { return {}; },
+
   render() {
     let posts, users;
 

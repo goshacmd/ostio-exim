@@ -13,6 +13,8 @@ export default React.createClass({
     }
   },
 
+  getInitialState() { return {}; },
+
   render() {
     let searchResults;
 
