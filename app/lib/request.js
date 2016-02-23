@@ -16,15 +16,25 @@ const getAccessData = () => {
   return {};
 };
 
+const addDataToPath = (path, data) => {
+  if (Object.keys(data).length > 0) {
+    const st = path.indexOf('?') === 0 ? '&' : '?'
+    return path + st + serialize(data);
+  }
+  return path;
+};
+
 const request = {
   get(path, data) {
     data = Object.assign(data || {}, getAccessData());
-    if (Object.keys(data).length > 0) {
-      const st = path.indexOf('?') === 0 ? '&' : '?'
-      path = path + st + serialize(data);
-    }
+    path = addDataToPath(path, data);
 
     return fetch(api.root + api.base + path).then(r => r.json());
+  },
+  post(path) {
+    path = addDataToPath(path, getAccessData());
+
+    return fetch(api.root + api.base + path, {method: 'post'});
   }
 };
 

@@ -7,7 +7,8 @@ export default Exim.createStore({
     'fetchLatest',
     'login',
     'logout',
-    'fetchCurrentUser'
+    'fetchCurrentUser',
+    'syncRepos'
   ],
 
   initial: {
@@ -61,5 +62,9 @@ export default Exim.createStore({
     did(user) {
       this.set('currentUser', user);
     }
+  },
+
+  syncRepos() {
+    return request.post('/users/' + this.get('currentUser').login + '/sync_repos');
   }
 })
