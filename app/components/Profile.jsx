@@ -23,11 +23,9 @@ const NewTopic = React.createClass({
 
     if (title.length === 0 || body.length === 0) return;
 
-    const {user, repo} = this.props;
+    const {user, repo, onDone} = this.props;
 
-    topicsStore.actions.create(user, repo, title, body).then(() => {
-      topicsStore.actions.fetchForUserRepo(user, repo).then(() => this.props.hide());
-    });
+    topicsStore.actions.create(user, repo, title, body).then(() => onDone());
   },
 
   render() {
@@ -68,8 +66,8 @@ export default React.createClass({
     this.setState({newTopic: true});
   },
 
-  handleFormHide() {
-    this.setState({newTopic: false});
+  topicCreated() {
+    topicsStore.actions.fetchForUserRepo(user, repo).then(() => this.setState({newTopic: false}));
   },
 
   render() {
@@ -112,7 +110,7 @@ export default React.createClass({
         {buttonContainer}
       </div>
 
-      {this.state.newTopic ? <NewTopic user={params.login} repo={params.repo} hide={this.handleFormHide} /> : null}
+      {this.state.newTopic ? <NewTopic user={params.login} repo={params.repo} onDone={this.topicCreated} /> : null}
       {this.props.children}
     </div>;
   }
