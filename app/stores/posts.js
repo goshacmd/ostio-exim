@@ -5,7 +5,8 @@ export default Exim.createStore({
   actions: [
     'search',
     'fetchLatest',
-    'fetchForUserRepoTopic'
+    'fetchForUserRepoTopic',
+    'post'
   ],
 
   initial: {
@@ -49,5 +50,9 @@ export default Exim.createStore({
     did(data) {
       this.set('posts', data);
     }
+  },
+
+  post(user, repo, topic, body) {
+    return request.post('/users/'+user+'/repos/'+repo+'/topics/'+topic+'/posts', {text: body});
   }
 })

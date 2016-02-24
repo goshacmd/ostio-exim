@@ -1,9 +1,11 @@
 import Exim from 'exim';
 import request from 'lib/request';
+import postsStore from 'stores/posts';
 
 export default Exim.createStore({
   actions: [
-    'fetchForUserRepo'
+    'fetchForUserRepo',
+    'create'
   ],
 
   initial: {
@@ -20,6 +22,17 @@ export default Exim.createStore({
     },
     did(data) {
       this.set('topics', data);
+    }
+  },
+
+  create: {
+    while(topicCreating) {
+      this.set({topicCreating});
+    },
+    on(user, repo, title, body) {
+      return request.post('/users/'+user+'/repos/'+repo+'/topics', {title}).then(topic => {
+        return postsStore.actions.post(user, repo, topic.number, body);
+      });
     }
   }
 })

@@ -31,10 +31,18 @@ const request = {
 
     return fetch(api.root + api.base + path).then(r => r.json());
   },
-  post(path) {
+  post(path, body) {
     path = addDataToPath(path, getAccessData());
 
-    return fetch(api.root + api.base + path, {method: 'post'});
+    if (body) {
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      return fetch(api.root + api.base + path, {method: 'post', body: JSON.stringify(body), headers}).then(r => r.json());
+    } else {
+      return fetch(api.root + api.base + path, {method: 'post'});
+    }
   }
 };
 

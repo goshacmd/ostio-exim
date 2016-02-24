@@ -2,6 +2,46 @@ import React from 'react';
 import Avatar from 'components/Avatar';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
+import topicsStore from 'stores/topics';
+
+const NewTopic = React.createClass({
+  handleSubmit(e) {
+    if (e) e.preventDefault();
+    this.createTopic();
+  },
+
+  handleKeyDown(e) {
+    if (e.key === 'Enter' && e.metaKey) {
+      e.preventDefault();
+      this.handleSubmit();
+    }
+  },
+
+  createTopic() {
+    const title = (this.refs.title.value || '').trim();
+    const body = (this.refs.body.value || '').trim();
+
+    if (title.length === 0 || body.length === 0) return;
+
+    const {user, repo} = this.props;
+
+    topicsStore.actions.create(user, repo, title, body).then(() => {
+      topicsStore.actions.fetchForUserRepo(user, repo).then(() => this.props.hide());
+    });
+  },
+
+  render() {
+    return <form className="new-topic-form" ref="form" onSubmit={this.handleSubmit} onKeyDown={this.handleKeyDown}>
+      <div className="new-topic-form-fields visible">
+        <input ref="title" className="new-topic-form-title" type="text" placeholder="Title" />
+        <textarea ref="body" className="new-topic-form-text" placeholder="Post body" />
+        <div className="new-topic-form-submit-button-container form-submit-button-container">
+          <button className="button">Submit new topic (⌘↩)</button>
+        </div>
+      </div>
+    </form>;
+  }
+});
 
 export default React.createClass({
   mixins: [
@@ -14,10 +54,22 @@ export default React.createClass({
 
   getInitialState() { return {}; },
 
+  componentWillReceiveProps() {
+    this.setState({newTopic: false});
+  },
+
   syncRepos() {
     usersStore.actions.syncRepos().then(() => {
       reposStore.actions.fetchForUser(this.state.user.login);
     });
+  },
+
+  createNewTopic() {
+    this.setState({newTopic: true});
+  },
+
+  handleFormHide() {
+    this.setState({newTopic: false});
   },
 
   render() {
@@ -44,7 +96,7 @@ export default React.createClass({
       if (!params.repo && !params.topic && currentUser.login === user.login) {
         button = ['Sync GitHub repos', this.syncRepos];
       } else if (params.repo && !params.topic) {
-        button = ['Create new topic', null];
+        button = ['Create new topic', this.createNewTopic];
       }
     }
 
@@ -60,6 +112,7 @@ export default React.createClass({
         {buttonContainer}
       </div>
 
+      {this.state.newTopic ? <NewTopic user={params.login} repo={params.repo} hide={this.handleFormHide} /> : null}
       {this.props.children}
     </div>;
   }
