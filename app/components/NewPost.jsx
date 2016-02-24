@@ -1,20 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Form from 'components/Form';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
-  handleSubmit(e) {
-    if (e) e.preventDefault();
-    this.createPost();
-  },
-
-  handleKeyDown(e) {
-    if (e.key === 'Enter' && e.metaKey) {
-      e.preventDefault();
-      this.handleSubmit();
-    }
-  },
-
   createPost() {
     const body = (this.refs.body.value || '').trim();
     if (body.length === 0) return;
@@ -31,7 +20,7 @@ export default React.createClass({
     const {user} = this.props;
 
     return <div className="new-post-form-container">
-      <form className="post post-create" onSubmit={this.handleSubmit} onKeyDown={this.handleKeyDown}>
+      <Form className="post post-create" onSubmit={this.createPost}>
         <div className="post-avatar-container">
           <img className="post-avatar avatar" src={user.avatar_url} />
         </div>
@@ -50,7 +39,7 @@ export default React.createClass({
             </div>
           </div>
         </div>
-      </form>
+      </Form>
     </div>;
   }
 });

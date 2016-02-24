@@ -1,19 +1,8 @@
 import React from 'react'
+import Form from 'components/Form';
 import topicsStore from 'stores/topics';
 
 export default React.createClass({
-  handleSubmit(e) {
-    if (e) e.preventDefault();
-    this.createTopic();
-  },
-
-  handleKeyDown(e) {
-    if (e.key === 'Enter' && e.metaKey) {
-      e.preventDefault();
-      this.handleSubmit();
-    }
-  },
-
   createTopic() {
     const title = (this.refs.title.value || '').trim();
     const body = (this.refs.body.value || '').trim();
@@ -26,7 +15,7 @@ export default React.createClass({
   },
 
   render() {
-    return <form className="new-topic-form" ref="form" onSubmit={this.handleSubmit} onKeyDown={this.handleKeyDown}>
+    return <Form className="new-topic-form" ref="form" onSubmit={this.createTopic}>
       <div className="new-topic-form-fields visible">
         <input ref="title" className="new-topic-form-title" type="text" placeholder="Title" />
         <textarea ref="body" className="new-topic-form-text" placeholder="Post body" />
@@ -34,7 +23,7 @@ export default React.createClass({
           <button className="button">Submit new topic (⌘↩)</button>
         </div>
       </div>
-    </form>;
+    </Form>;
   }
 });
 

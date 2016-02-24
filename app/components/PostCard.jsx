@@ -1,24 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import Form from 'components/Form';
 
 const PostEditor = React.createClass({
   handleEditSave() {
     const newBody = (this.refs.body.value || '').trim();
     if (newBody.length === 0) return;
     this.props.onEdit(newBody);
-  },
-
-  handleSubmit(e) {
-    if (e) e.preventDefault();
-    this.handleEditSave();
-  },
-
-  handleKeyDown(e) {
-    if (e.key === 'Enter' && e.metaKey) {
-      e.preventDefault();
-      this.handleSubmit();
-    }
   },
 
   handleCancel(e) {
@@ -29,14 +18,14 @@ const PostEditor = React.createClass({
   render() {
     const {text} = this.props;
 
-    return <form className="post post-create" onSubmit={this.handleSubmit} onKeyDown={this.handleKeyDown}>
+    return <Form className="post post-create" onSubmit={this.handleEditSave}>
       <div className="post-text">
         <textarea className="edit-post-body" ref="body" style={{height: 64}} defaultValue={text} />
         <div className="post-buttons">
           <button className="button" onClick={this.handleCancel}>Cancel</button> <button className="button">Save post (⌘↩)</button>
         </div>
       </div>
-    </form>;
+    </Form>;
   }
 });
 
