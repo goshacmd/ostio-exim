@@ -1,3 +1,4 @@
+import {Link} from 'react-router';
 import moment from 'moment';
 
 export default ({ post, inFeed }) => {
@@ -8,16 +9,16 @@ export default ({ post, inFeed }) => {
   const rendered = marked(post.text, {gfm: true, sanitize: true});
 
   const authorAddition = inFeed ?
-    <span>in <a className="post-url" href={topicUrl}>{topicAddress}</a></span> :
+    <span>in <Link className="post-url" to={topicUrl}>{topicAddress}</Link></span> :
     null;
 
   return <article className="post animated-item-view animated-item-view-end">
-    <a className="post-avatar-container" href={userUrl}>
+    <Link className="post-avatar-container" to={userUrl}>
       <img className="post-avatar avatar" src={post.user.avatar_url} />
-    </a>
+    </Link>
     <div className="post-content">
       <div className="post-header">
-        <a className="post-autor" href={userUrl}>{post.user.login}</a> {authorAddition}
+        <Link className="post-autor" to={userUrl}>{post.user.login}</Link> {authorAddition}
         <time className="post-metadata post-date">
           {moment(new Date(post.created_at)).fromNow()}
         </time>

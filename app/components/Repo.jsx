@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import moment from 'moment';
 import topicsStore from 'stores/topics';
 
@@ -6,9 +7,9 @@ const TopicCard = ({ topic }) => {
   const url = "/@" + topic.repo.user.login + "/" + topic.repo.name + "/topics/" + topic.number;
   return <div className="repo-topic animated-view-item animated-view-item-end">
     <div className="repo-topic-header">
-      <a href={url}>#{topic.number}</a> <a href={url}>{topic.title}</a>
+      <Link to={url}>#{topic.number}</Link> <Link to={url}>{topic.title}</Link>
     </div>
-    by <a className="post-author" href={"/@" + topic.user.login}>{topic.user.login}</a> <time>{moment(topic.created_at).fromNow()}</time>
+    by <Link className="post-author" to={"/@" + topic.user.login}>{topic.user.login}</Link> <time>{moment(topic.created_at).fromNow()}</time>
     <span className="post-metadata post-date">{topic.total_posts} posts</span>
   </div>
 };

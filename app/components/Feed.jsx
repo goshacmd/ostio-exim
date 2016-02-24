@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import PostCard from 'components/PostCard';
 import Avatar from 'components/Avatar';
 import postsStore from 'stores/posts';
@@ -33,9 +34,9 @@ export default React.createClass({
     } else if (this.state.users.length > 0) {
       users = this.state.users.map(user => {
         return <span className="user animated-item-view animated-item-view-end">
-          <a className="user-organization organization" href={'/@' + user.login} title={user.login}>
+          <Link className="user-organization organization" to={'/@' + user.login} title={user.login}>
             <Avatar url={user.avatar_url} />
-          </a>
+          </Link>
         </span>;
       });
     } else {

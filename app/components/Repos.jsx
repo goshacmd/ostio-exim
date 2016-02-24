@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
@@ -26,7 +27,7 @@ export default React.createClass({
     } else if (repositories.length > 0) {
       repos = repositories.map(repo => {
         return <li className="user-repo animated-item-view animated-item-view-end">
-          <a href={"/@" + user.login + "/" + repo.name}>{repo.name}</a>
+          <Link to={"/@" + user.login + "/" + repo.name}>{repo.name}</Link>
         </li>
       });
 

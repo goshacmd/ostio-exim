@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
@@ -37,7 +38,7 @@ export default React.createClass({
 
         <div className="post-content">
           <div className="post-header">
-            <a className="post-author" href={'/@' + user.login}>{user.login}</a>
+            <Link className="post-author" to={'/@' + user.login}>{user.login}</Link>
             <em className="post-metadata">
               Posts are parsed with <a href="http://github.github.com/github-flavored-markdown/" target="_blank">Markdown</a>
             </em>

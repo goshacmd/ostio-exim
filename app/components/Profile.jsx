@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import Avatar from 'components/Avatar';
 import NewTopic from 'components/NewTopic';
 import usersStore from 'stores/users';
@@ -39,17 +40,17 @@ export default React.createClass({
     const {params} = this.props;
     if (!user || userLoading) return <div>Loading...</div>;
 
-    const avatar = <a className="navigation-link" href={"/@" + user.login}><Avatar url={user.avatar_url} /></a>;
-    const userLink = <a className="navigation-link" href={"/@" + user.login} data-type="login">{user.login}</a>
+    const avatar = <Link className="navigation-link" to={"/@" + user.login}><Avatar url={user.avatar_url} /></Link>;
+    const userLink = <Link className="navigation-link" to={"/@" + user.login} data-type="login">{user.login}</Link>;
 
     let repoLink, topicLink;
 
     if (params.repo) {
-      repoLink = <a className="navigation-link" href={"/@" + user.login + "/" + params.repo} data-type="repo">{params.repo}</a>
+      repoLink = <Link className="navigation-link" to={"/@" + user.login + "/" + params.repo} data-type="repo">{params.repo}</Link>
     }
 
     if (params.repo && params.topic) {
-      topicLink = <a className="navigation-link" href={"/@" + user.login + "/" + params.repo + "/topics/" + params.topic} data-type="topic">#{params.topic}</a>
+      topicLink = <Link className="navigation-link" to={"/@" + user.login + "/" + params.repo + "/topics/" + params.topic} data-type="topic">#{params.topic}</Link>
     }
 
     let button;
