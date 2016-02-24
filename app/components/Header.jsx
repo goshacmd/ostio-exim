@@ -31,7 +31,7 @@ export default React.createClass({
       auth = [
         <Link to={'/@' + currentUser.login}><img className="avatar header-avatar" src={currentUser.avatar_url} /></Link>,
         <Link to={'/@' + currentUser.login}>{currentUser.login}</Link>,
-        <a href="#" className="icon icon-cog" />,
+        <Link to="/settings" className="icon icon-cog" />,
         <a href="#" className="icon icon-logout" onClick={this.logout} />
       ]
     } else {

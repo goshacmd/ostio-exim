@@ -8,6 +8,7 @@ export default Exim.createStore({
     'login',
     'logout',
     'fetchCurrentUser',
+    'updateCurrentUser',
     'syncRepos'
   ],
 
@@ -44,7 +45,7 @@ export default Exim.createStore({
   },
 
   login(accessToken) {
-    //if (this.get('currentUser')) return;
+    if (this.get('currentUser')) return;
     localStorage.setItem('accessToken', accessToken);
     return this.actions.fetchCurrentUser();
   },
@@ -52,6 +53,10 @@ export default Exim.createStore({
   logout() {
     localStorage.removeItem('accessToken');
     this.set('currentUser', null);
+  },
+
+  updateCurrentUser(data) {
+    return request.put('/users/me', data).then(() => this.actions.fetchCurrentUser());
   },
 
   fetchCurrentUser: {
