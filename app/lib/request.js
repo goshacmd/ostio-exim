@@ -43,6 +43,24 @@ const request = {
     } else {
       return fetch(api.root + api.base + path, {method: 'post'});
     }
+  },
+  put(path, body) {
+    path = addDataToPath(path, getAccessData());
+
+    if (body) {
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      return fetch(api.root + api.base + path, {method: 'put', body: JSON.stringify(body), headers});
+    } else {
+      return fetch(api.root + api.base + path, {method: 'put'});
+    }
+  },
+  delete(path, body) {
+    path = addDataToPath(path, getAccessData());
+
+    return fetch(api.root + api.base + path, {method: 'delete'});
   }
 };
 

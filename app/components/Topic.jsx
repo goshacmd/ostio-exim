@@ -24,8 +24,7 @@ export default React.createClass({
   },
 
   render() {
-    const topics = this.state.topics;
-    const posts = this.state.posts;
+    const {topics, posts, currentUser} = this.state;
     const topic = topics && topics.find(topic => topic.number == this.props.params.topic);
 
     if (!topic) return <div>Loading...</div>;
@@ -35,7 +34,13 @@ export default React.createClass({
     if (!posts || this.state.postsLoading) {
       tops = "Loading...";
     } else if (posts.length > 0) {
-      tops = posts.map(post => <PostCard post={post} />);
+      tops = posts.map(post => {
+        const showActions = post.user.login === currentUser.login;
+        const {login, repo} = this.props.params;
+        const onDelete = () => postsStore.actions.deletePost(login, repo, topic.number, post.id).then(() => this.posted());
+        const onEdit = body => postsStore.actions.updatePost(login, repo, topic.number, post.id, body).then(() => this.posted());
+        return <PostCard {...{showActions, onDelete, onEdit, post}} />;
+      });
     } else {
       tops = "No posts."
     }
@@ -46,7 +51,7 @@ export default React.createClass({
         <div className="posts">
           {tops}
         </div>
-        {this.state.currentUser ? <NewPost user={this.state.currentUser} repo={this.props.params.repo} topic={this.props.params.topic} onDone={this.posted} /> : null}
+        {this.state.currentUser ? <NewPost user={currentUser} repo={this.props.params.repo} topic={this.props.params.topic} onDone={this.posted} /> : null}
       </div>
     </div>;
   }
