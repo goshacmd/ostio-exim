@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Button from 'components/Button';
 import Avatar from 'components/Avatar';
 import Spinner from 'components/Spinner';
 import NewTopic from 'components/NewTopic';
@@ -64,7 +65,7 @@ export default React.createClass({
       }
     }
 
-    button = button ? <button className="button" onClick={button[1]}>{button[0]}</button> : null;
+    button = button ? <Button onClick={button[1]}>{button[0]}</Button> : null;
 
     let buttonContainer = button ? <div className="button-container">{button}</div> : null;
 

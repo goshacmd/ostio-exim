@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
 import Form from 'components/Form';
+import Button from 'components/Button';
 import Avatar from 'components/Avatar';
 
 const PostEditor = React.createClass({
@@ -23,7 +24,7 @@ const PostEditor = React.createClass({
       <div className="post-text">
         <textarea className="edit-post-body" ref="body" style={{height: 64}} defaultValue={text} />
         <div className="post-buttons">
-          <button className="button" onClick={this.handleCancel}>Cancel</button> <button className="button">Save post (⌘↩)</button>
+          <Button onClick={this.handleCancel}>Cancel</Button> <Button>Save post (⌘↩)</Button>
         </div>
       </div>
     </Form>;

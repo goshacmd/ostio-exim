@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import Form from 'components/Form';
 import Avatar from 'components/Avatar';
+import Button from 'components/Button';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
@@ -36,7 +37,7 @@ export default React.createClass({
           <div className="post-text">
             <textarea ref="body" className="new-post-body" />
             <div className="post-buttons">
-              <button className="button">Comment on this topic (⌘↩)</button>
+              <Button>Comment on this topic (⌘↩)</Button>
             </div>
           </div>
         </div>

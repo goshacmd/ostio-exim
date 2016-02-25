@@ -1,5 +1,6 @@
 import React from 'react'
 import Form from 'components/Form';
+import Button from 'components/Button';
 import topicsStore from 'stores/topics';
 
 export default React.createClass({
@@ -20,7 +21,7 @@ export default React.createClass({
         <input ref="title" className="new-topic-form-title" type="text" placeholder="Title" />
         <textarea ref="body" className="new-topic-form-text" placeholder="Post body" />
         <div className="new-topic-form-submit-button-container form-submit-button-container">
-          <button className="button">Submit new topic (⌘↩)</button>
+          <Button>Submit new topic (⌘↩)</Button>
         </div>
       </div>
     </Form>;
