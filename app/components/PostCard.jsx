@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
-import Form from 'components/Form';
-import Button from 'components/Button';
-import Avatar from 'components/Avatar';
+import Form from 'components/common/Form';
+import Button from 'components/common/Button';
+import Avatar from 'components/common/Avatar';
 import PostCardBlueprint from 'components/PostCardBlueprint';
 
 const PostEditor = React.createClass({
@@ -86,7 +86,10 @@ export default React.createClass({
       <span>in <Link className="post-url" to={topicUrl}>{topicAddress}</Link></span> :
       null;
 
-    return <PostCardBlueprint user={post.user} authorAddition={authorAddition} metadata={moment(new Date(post.created_at)).fromNow()}>
+    const {user} = post;
+    const metadata = <span>{moment(new Date(post.created_at)).fromNow()}</span>;
+
+    return <PostCardBlueprint {...{user, authorAddition, metadata}}>
       {actions}
       {text}
     </PostCardBlueprint>;

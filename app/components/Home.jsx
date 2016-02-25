@@ -19,8 +19,7 @@ export default () => {
         <strong>2,500 people hosting over 15,000 forum projects already!</strong>
       </p>
 
-      <p>Some popular open-source projects are already using ost.io.
-      Care to join them? You're three clicks away!</p>
+      <p>Some popular open-source projects are already using ost.io. Care to join them? You're three clicks away!</p>
 
       <ul>
         <li><Link to="/@brunch/brunch">Brunch</Link> — lightweight build tool for HTML5 apps.</li>

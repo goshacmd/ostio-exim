@@ -4,8 +4,8 @@ import topicsStore from 'stores/topics';
 import postsStore from 'stores/posts';
 import PostCard from 'components/PostCard';
 import NewPost from 'components/NewPost';
-import Spinner from 'components/Spinner';
-import Animated from 'components/Animated';
+import Spinner from 'components/common/Spinner';
+import Animated from 'components/common/Animated';
 
 export default React.createClass({
   mixins: [

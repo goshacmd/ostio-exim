@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Avatar from 'components/Avatar';
-import Spinner from 'components/Spinner';
-import Animated from 'components/Animated';
+import Avatar from 'components/common/Avatar';
+import Spinner from 'components/common/Spinner';
+import Animated from 'components/common/Animated';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
@@ -18,6 +18,25 @@ const OrgCard = ({ item }) => {
       <Avatar url={item.avatar_url} />
     </Link>
   </span>;
+};
+
+const OrganizationsOwners = ({ user }) => {
+  const isOrg = user.type === 'Organization';
+  const orgItems = isOrg ? user.owners : user.organizations;
+
+  if (orgItems.length > 0) {
+    const userList = orgItems.map(item => <Animated inline={true}><OrgCard item={item} /></Animated>);
+
+    return <div className="user-organization-list-container">
+      <div className="users">
+        <h4>{isOrg ? 'Owners' : 'Organizations'}</h4>
+
+        <div className="users-list">{userList}</div>
+      </div>
+    </div>;
+  }
+
+  return <div />;
 };
 
 export default React.createClass({
@@ -48,25 +67,8 @@ export default React.createClass({
       repos = "No repositories.";
     }
 
-    const isOrg = user.type === 'Organization';
-    const orgItems = isOrg ? user.owners : user.organizations;
-
-    let orgListing;
-
-    if (orgItems.length > 0) {
-      const userList = orgItems.map(item => <Animated inline={true}><OrgCard item={item} /></Animated>);
-
-      orgListing = <div className="user-organization-list-container">
-        <div className="users">
-          <h4>{isOrg ? 'Owners' : 'Organizations'}</h4>
-
-          <div className="users-list">{userList}</div>
-        </div>
-      </div>;
-    }
-
     return <div>
-      {orgListing}
+      <OrganizationsOwners {...{user}} />
 
       <div className="user-repo-list-container">
         <h4>

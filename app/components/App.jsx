@@ -9,11 +9,11 @@ export default React.createClass({
 
   render() {
     return (
-      <div id="site-container">
-        <Header/>
+      <div>
+        <Header />
         <div className="container outer-container">
-          <div className="page-container" id="page-container">
-            <div className="content-container" id="content-container">
+          <div className="page-container">
+            <div className="content-container">
               {this.props.children}
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react'
-import Form from 'components/Form';
-import Button from 'components/Button';
+import Form from 'components/common/Form';
+import Button from 'components/common/Button';
 import topicsStore from 'stores/topics';
 
 export default React.createClass({

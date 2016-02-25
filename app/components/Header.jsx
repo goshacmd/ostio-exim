@@ -2,60 +2,63 @@ import React from 'react';
 import { Link } from 'react-router';
 import { api } from 'config';
 import usersStore from 'stores/users';
-import Avatar from 'components/Avatar';
+import Avatar from 'components/common/Avatar';
 
 const HeaderLink = ({ to, children }) => {
   return <h4 className="header-link"><Link to={to}>{children}</Link></h4>;
 };
 
-export default React.createClass({
+const HeaderAuth = React.createClass({
   mixins: [
     usersStore.connect('currentUser')
   ],
 
   getInitialState() { return {}; },
 
-  logout() {
+  logout(e) {
+    e.preventDefault();
     usersStore.actions.logout();
   },
 
   render() {
-    const {protocol, host} = window.location;
-    const cbUrl = encodeURIComponent(protocol + '//' + host + '/auth-callback');
-    const loginUrl = api.root + '/auth/github/?origin=' + cbUrl;
-
     const {currentUser} = this.state;
 
-    let auth;
-
     if (currentUser) {
-      auth = [
-        <Link to={'/@' + currentUser.login}><Avatar className="header-avatar" url={currentUser.avatar_url} /></Link>,
-        <Link to={'/@' + currentUser.login}>{currentUser.login}</Link>,
-        <Link to="/settings" className="icon icon-cog" />,
+      const profilePath = '/@' + currentUser.login;
+
+      return <div className="header-auth">
+        <Link to={profilePath}><Avatar className="header-avatar" url={currentUser.avatar_url} /></Link>
+        <Link to={profilePath}>{currentUser.login}</Link>
+        <Link to="/settings" className="icon icon-cog" />
         <a href="#" className="icon icon-logout" onClick={this.logout} />
-      ]
+      </div>;
     } else {
-      auth = <a href={loginUrl} className="header-login-button button noscript">Login with GitHub</a>;
-    }
+      const {protocol, host} = window.location;
+      const cbUrl = encodeURIComponent(protocol + '//' + host + '/auth-callback');
+      const loginUrl = api.root + '/auth/github/?origin=' + cbUrl;
 
-    return (
-      <div className="header-container" id="header-container">
-        <header id="header" className="header">
-          <h1 className="header-logo">
-            <Link to="/">Ost.io</Link>
-          </h1>
-
-          <div className="header-links">
-            <HeaderLink to="/feed">Feed</HeaderLink>
-            <HeaderLink to="/search">Search</HeaderLink>
-          </div>
-
-          <div className="header-auth">
-            {auth}
-          </div>
-        </header>
+      return <div className="header-auth">
+        <a href={loginUrl} className="header-login-button button noscript">Login with GitHub</a>
       </div>
-    );
+    }
   }
 });
+
+export default () => {
+  return (
+    <div className="header-container">
+      <header className="header">
+        <h1 className="header-logo">
+          <Link to="/">Ost.io</Link>
+        </h1>
+
+        <div className="header-links">
+          <HeaderLink to="/feed">Feed</HeaderLink>
+          <HeaderLink to="/search">Search</HeaderLink>
+        </div>
+
+        <HeaderAuth />
+      </header>
+    </div>
+  );
+};

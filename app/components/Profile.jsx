@@ -1,25 +1,29 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Button from 'components/Button';
-import Avatar from 'components/Avatar';
-import Spinner from 'components/Spinner';
+import Button from 'components/common/Button';
+import Avatar from 'components/common/Avatar';
+import Spinner from 'components/common/Spinner';
 import NewTopic from 'components/NewTopic';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 import topicsStore from 'stores/topics';
 
 const Navigation = ({ user, repo, topic }) => {
-  const avatar = <Link className="navigation-link" to={"/@" + user.login}><Avatar url={user.avatar_url} /></Link>;
-  const userLink = <Link className="navigation-link" to={"/@" + user.login} data-type="login">{user.login}</Link>;
+  const profilePath = '/@' + user.login;
+
+  const avatar = <Link className="navigation-link" to={profilePath}><Avatar url={user.avatar_url} /></Link>;
+  const userLink = <Link className="navigation-link" to={profilePath} data-type="login">{user.login}</Link>;
 
   let repoLink, topicLink;
 
   if (repo) {
-    repoLink = <Link className="navigation-link" to={"/@" + user.login + "/" + repo} data-type="repo">{repo}</Link>
-  }
+    const repoPath = profilePath + '/' + repo;
 
-  if (repo && topic) {
-    topicLink = <Link className="navigation-link" to={"/@" + user.login + "/" + repo + "/topics/" + topic} data-type="topic">#{topic}</Link>
+    repoLink = <Link className="navigation-link" to={repoPath} data-type="repo">{repo}</Link>
+
+    if (topic) {
+      topicLink = <Link className="navigation-link" to={repoPath + "/topics/" + topic} data-type="topic">#{topic}</Link>
+    }
   }
 
   return <span>{avatar} {userLink} {repoLink ? [' / ', repoLink] : null} {topicLink ? [' / ', topicLink] : null}</span>
@@ -75,19 +79,20 @@ export default React.createClass({
   },
 
   render() {
-    const {user, userLoading, currentUser} = this.state;
-    const {params} = this.props;
+    const {user, userLoading, newTopic} = this.state;
     if (!user || userLoading) return <Spinner />;
+
+    const {repo, topic, login} = this.props.params;
 
     return <div>
       <div className="user-nav">
         <h2>
-          <Navigation user={user} repo={params.repo} topic={params.topic} />
+          <Navigation {...{user, repo, topic}} />
         </h2>
         {this.actionButton()}
       </div>
 
-      {this.state.newTopic ? <NewTopic user={params.login} repo={params.repo} onDone={this.topicCreated} /> : null}
+      {newTopic ? <NewTopic user={login} repo={repo} onDone={this.topicCreated} /> : null}
       {this.props.children}
     </div>;
   }

@@ -1,24 +1,20 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Avatar from 'components/Avatar';
+import Avatar from 'components/common/Avatar';
 
-export default React.createClass({
-  render() {
-    const {user, authorAddition, metadata, children} = this.props;
+export default ({ user, authorAddition, metadata, children }) => {
+  const userUrl = '/@' + user.login;
 
-    const userUrl = '/@' + user.login;
-
-    return <article className="post">
-      <Link className="post-avatar-container" to={userUrl}>
-        <Avatar className="post-avatar" url={user.avatar_url} />
-      </Link>
-      <div className="post-content">
-        <div className="post-header">
-          <Link className="post-author" to={userUrl}>{user.login}</Link> {authorAddition}
-          <span className="post-metadata" dangerouslySetInnerHTML={{__html: metadata}} />
-        </div>
-        {children}
+  return <article className="post">
+    <Link className="post-avatar-container" to={userUrl}>
+      <Avatar className="post-avatar" url={user.avatar_url} />
+    </Link>
+    <div className="post-content">
+      <div className="post-header">
+        <Link className="post-author" to={userUrl}>{user.login}</Link> {authorAddition}
+        <span className="post-metadata">{metadata}</span>
       </div>
-    </article>
-  }
-});
+      {children}
+    </div>
+  </article>
+};

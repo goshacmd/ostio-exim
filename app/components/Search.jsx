@@ -1,6 +1,7 @@
 import React from 'react';
 import postsStore from 'stores/posts';
-import Spinner from 'components/Spinner';
+import Spinner from 'components/common/Spinner';
+import Animated from 'components/common/Animated';
 import PostCard from 'components/PostCard';
 
 export default React.createClass({
@@ -25,7 +26,7 @@ export default React.createClass({
       if (this.state.postsLoading) {
         posts = <Spinner />;
       } else if (this.state.posts.length > 0) {
-        posts = this.state.posts.map(post => <PostCard post={post} inFeed={true} />);
+        posts = this.state.posts.map(post => <Animated><PostCard post={post} inFeed={true} /></Animated>);
       } else {
         posts = "No posts found.";
       }
