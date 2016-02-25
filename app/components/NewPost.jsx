@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Form from 'components/Form';
+import Avatar from 'components/Avatar';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
@@ -22,7 +23,7 @@ export default React.createClass({
     return <div className="new-post-form-container">
       <Form className="post post-create" onSubmit={this.createPost}>
         <div className="post-avatar-container">
-          <img className="post-avatar avatar" src={user.avatar_url} />
+          <Avatar className="post-avatar" url={user.avatar_url} />
         </div>
 
         <div className="post-content">

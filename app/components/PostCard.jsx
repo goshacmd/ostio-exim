@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
 import Form from 'components/Form';
+import Avatar from 'components/Avatar';
 
 const PostEditor = React.createClass({
   handleEditSave() {
@@ -83,7 +84,7 @@ export default React.createClass({
 
     return <article className="post animated-item-view animated-item-view-end">
       <Link className="post-avatar-container" to={userUrl}>
-        <img className="post-avatar avatar" src={post.user.avatar_url} />
+        <Avatar className="post-avatar" url={post.user.avatar_url} />
       </Link>
       <div className="post-content">
         <div className="post-header">

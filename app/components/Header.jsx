@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { api } from 'config';
 import usersStore from 'stores/users';
+import Avatar from 'components/Avatar';
 
 const HeaderLink = ({ to, children }) => {
   return <h4 className="header-link"><Link to={to}>{children}</Link></h4>;
@@ -29,7 +30,7 @@ export default React.createClass({
 
     if (currentUser) {
       auth = [
-        <Link to={'/@' + currentUser.login}><img className="avatar header-avatar" src={currentUser.avatar_url} /></Link>,
+        <Link to={'/@' + currentUser.login}><Avatar className="header-avatar" url={currentUser.avatar_url} /></Link>,
         <Link to={'/@' + currentUser.login}>{currentUser.login}</Link>,
         <Link to="/settings" className="icon icon-cog" />,
         <a href="#" className="icon icon-logout" onClick={this.logout} />
