@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Avatar from 'components/Avatar';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
@@ -20,7 +21,7 @@ export default React.createClass({
     const repositories = this.state.repos;
     let repos;
 
-    if (!user) return;
+    if (!user) return <div>Loading...</div>;
 
     if (!repositories || this.state.reposLoading) {
       repos = "Loading...";
@@ -35,12 +36,29 @@ export default React.createClass({
     } else {
       repos = "No repositories.";
     }
-    return <div className="user-repo-list-container">
-      <h4>
-        Repositories <a className="icon icon-github" href={"https://github.com/" + user.login} />
 
-        {repos}
-      </h4>
+    const userList = (user.type === 'Organization' ? user.owners : user.organizations).map(item => {
+      return <span className="user animated-item-view animated-item-view-end">
+        <Link to={"/@" + item.login} title={item.login} className="user-organization organization">
+          <Avatar url={item.avatar_url} />
+        </Link>
+      </span>
+    });
+    return <div>
+      <div className="user-organization-list-container">
+        <div className="users">
+          <h4>{user.type === 'Organization' ? 'Owners' : 'Organizations'}</h4>
+
+          <div className="users-list">{userList}</div>
+        </div>
+      </div>
+      <div className="user-repo-list-container">
+        <h4>
+          Repositories <a className="icon icon-github" href={"https://github.com/" + user.login} />
+
+          {repos}
+        </h4>
+      </div>
     </div>;
   }
 });
