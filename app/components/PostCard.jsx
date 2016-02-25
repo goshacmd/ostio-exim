@@ -4,6 +4,7 @@ import moment from 'moment';
 import Form from 'components/Form';
 import Button from 'components/Button';
 import Avatar from 'components/Avatar';
+import PostCardBlueprint from 'components/PostCardBlueprint';
 
 const PostEditor = React.createClass({
   handleEditSave() {
@@ -31,6 +32,11 @@ const PostEditor = React.createClass({
   }
 });
 
+const PostRenderer = ({ text }) => {
+  const rendered = marked(text, {gfm: true, sanitize: true});
+  return <div className="post-text" dangerouslySetInnerHTML={{__html: rendered}} />;
+};
+
 export default React.createClass({
   getInitialState() {
     return { isEditing: false };
@@ -56,11 +62,8 @@ export default React.createClass({
   render() {
     const {post, inFeed, showActions, onEdit, onDelete} = this.props;
 
-    const userUrl = "/@" + post.user.login;
     const topicAddress = post.user.login + "/" + post.topic.repo.name + "/topics/" + post.topic.number;
     const topicUrl = "/@" + topicAddress;
-
-    const rendered = marked(post.text, {gfm: true, sanitize: true});
 
     let actions;
 
@@ -74,7 +77,7 @@ export default React.createClass({
     let text;
 
     if (!this.state.isEditing) {
-      text = <div className="post-text" dangerouslySetInnerHTML={{__html: rendered}} />;
+      text = <PostRenderer text={post.text} />
     } else {
       text = <PostEditor onCancel={this.handleEditCancel} onEdit={this.handleEditSave} text={post.text} />
     }
@@ -83,20 +86,9 @@ export default React.createClass({
       <span>in <Link className="post-url" to={topicUrl}>{topicAddress}</Link></span> :
       null;
 
-    return <article className="post animated-item-view animated-item-view-end">
-      <Link className="post-avatar-container" to={userUrl}>
-        <Avatar className="post-avatar" url={post.user.avatar_url} />
-      </Link>
-      <div className="post-content">
-        <div className="post-header">
-          <Link className="post-autor" to={userUrl}>{post.user.login}</Link> {authorAddition}
-          <time className="post-metadata post-date">
-            {moment(new Date(post.created_at)).fromNow()}
-          </time>
-        </div>
-        {actions}
-        {text}
-      </div>
-    </article>
+    return <PostCardBlueprint user={post.user} authorAddition={authorAddition} metadata={moment(new Date(post.created_at)).fromNow()}>
+      {actions}
+      {text}
+    </PostCardBlueprint>;
   }
 });

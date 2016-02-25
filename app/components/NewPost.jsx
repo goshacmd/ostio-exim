@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import Form from 'components/Form';
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+import PostCardBlueprint from 'components/PostCardBlueprint';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
@@ -29,27 +30,17 @@ export default React.createClass({
     const {user} = this.props;
     const {isCreating} = this.state;
 
-    return <div className="new-post-form-container">
-      <Form className="post post-create" onSubmit={this.createPost}>
-        <div className="post-avatar-container">
-          <Avatar className="post-avatar" url={user.avatar_url} />
-        </div>
+    const metadata = 'Posts are parsed with <a href="http://github.github.com/github-flavored-markdown/" target="_blank">Markdown</a>';
 
-        <div className="post-content">
-          <div className="post-header">
-            <Link className="post-author" to={'/@' + user.login}>{user.login}</Link>
-            <em className="post-metadata">
-              Posts are parsed with <a href="http://github.github.com/github-flavored-markdown/" target="_blank">Markdown</a>
-            </em>
-          </div>
-          <div className="post-text">
-            <textarea ref="body" className="new-post-body" />
-            <div className="post-buttons">
-              <Button loading={isCreating}>Comment on this topic (⌘↩)</Button>
-            </div>
+    return <Form className="post" onSubmit={this.createPost}>
+      <PostCardBlueprint user={user} metadata={metadata}>
+        <div className="post-text">
+          <textarea ref="body" className="new-post-body" />
+          <div className="post-buttons">
+            <Button loading={isCreating}>Comment on this topic (⌘↩)</Button>
           </div>
         </div>
-      </Form>
-    </div>;
+      </PostCardBlueprint>
+    </Form>;
   }
 });
