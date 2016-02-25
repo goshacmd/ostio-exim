@@ -6,13 +6,20 @@ import Button from 'components/Button';
 import postsStore from 'stores/posts';
 
 export default React.createClass({
+  getInitialState() {
+    return { isCreating: false };
+  },
+
   createPost() {
     const body = (this.refs.body.value || '').trim();
     if (body.length === 0) return;
 
     const {user, repo, topic, onDone} = this.props;
 
+    this.setState({isCreating: true});
+
     postsStore.actions.post(user.login, repo, topic, body).then(() => {
+      this.setState({isCreating: false});
       this.refs.body.value = '';
       onDone();
     });
@@ -20,6 +27,7 @@ export default React.createClass({
 
   render() {
     const {user} = this.props;
+    const {isCreating} = this.state;
 
     return <div className="new-post-form-container">
       <Form className="post post-create" onSubmit={this.createPost}>
@@ -37,7 +45,7 @@ export default React.createClass({
           <div className="post-text">
             <textarea ref="body" className="new-post-body" />
             <div className="post-buttons">
-              <Button>Comment on this topic (⌘↩)</Button>
+              <Button loading={isCreating}>Comment on this topic (⌘↩)</Button>
             </div>
           </div>
         </div>
