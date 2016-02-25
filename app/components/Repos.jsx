@@ -45,14 +45,17 @@ export default React.createClass({
         </Link>
       </span>
     });
-    return <div>
-      <div className="user-organization-list-container">
-        <div className="users">
-          <h4>{user.type === 'Organization' ? 'Owners' : 'Organizations'}</h4>
 
-          <div className="users-list">{userList}</div>
-        </div>
+    const orgListing = <div className="user-organization-list-container">
+      <div className="users">
+        <h4>{user.type === 'Organization' ? 'Owners' : 'Organizations'}</h4>
+
+        <div className="users-list">{userList}</div>
       </div>
+    </div>;
+
+    return <div>
+      {userList.length > 0 ? orgListing : null}
       <div className="user-repo-list-container">
         <h4>
           Repositories <a className="icon icon-github" href={"https://github.com/" + user.login} />
