@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import Spinner from 'components/Spinner';
 import topicsStore from 'stores/topics';
 
 const TopicCard = ({ topic }) => {
@@ -27,12 +28,12 @@ export default React.createClass({
 
   render() {
     const topics = this.state.topics;
-    if (!topics) return <div>Loading...</div>;
+    if (!topics) return <Spinner />;
 
     let tops;
 
     if (this.state.topicsLoading) {
-      tops = "Loading...";
+      tops = <Spinner />;
     } else if (topics.length > 0) {
       tops = topics.map(topic => <TopicCard topic={topic} />);
     } else {

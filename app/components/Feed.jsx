@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import PostCard from 'components/PostCard';
 import Avatar from 'components/Avatar';
+import Spinner from 'components/Spinner';
 import postsStore from 'stores/posts';
 import usersStore from 'stores/users';
 
@@ -22,7 +23,7 @@ export default React.createClass({
     let posts, users;
 
     if (!this.state.posts || this.state.postsLoading) {
-      posts = "Loading...";
+      posts = <Spinner />;
     } else if (this.state.posts.length > 0) {
       posts = this.state.posts.map(post => <PostCard post={post} inFeed={true} />)
     } else {
@@ -30,7 +31,7 @@ export default React.createClass({
     }
 
     if (!this.state.users || this.state.usersLoading) {
-      users = "Loading...";
+      users = <Spinner />;
     } else if (this.state.users.length > 0) {
       users = this.state.users.map(user => {
         return <span className="user animated-item-view animated-item-view-end">

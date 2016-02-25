@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Avatar from 'components/Avatar';
+import Spinner from 'components/Spinner';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
@@ -21,10 +22,10 @@ export default React.createClass({
     const repositories = this.state.repos;
     let repos;
 
-    if (!user) return <div>Loading...</div>;
+    if (!user) return <Spinner />;
 
     if (!repositories || this.state.reposLoading) {
-      repos = "Loading...";
+      repos = <Spinner />;
     } else if (repositories.length > 0) {
       repos = repositories.map(repo => {
         return <li className="user-repo animated-item-view animated-item-view-end">

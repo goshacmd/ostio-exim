@@ -4,12 +4,13 @@ import topicsStore from 'stores/topics';
 import postsStore from 'stores/posts';
 import PostCard from 'components/PostCard';
 import NewPost from 'components/NewPost';
+import Spinner from 'components/Spinner';
 
 export default React.createClass({
   mixins: [
     usersStore.connect('currentUser'),
     topicsStore.connect('topics'),
-    postsStore.connect('postsStore', 'posts')
+    postsStore.connect('postsLoading', 'posts')
   ],
 
   componentDidMount() {
@@ -27,12 +28,12 @@ export default React.createClass({
     const {topics, posts, currentUser} = this.state;
     const topic = topics && topics.find(topic => topic.number == this.props.params.topic);
 
-    if (!topic) return <div>Loading...</div>;
+    if (!topic) return <Spinner />;
 
     let tops;
 
     if (!posts || this.state.postsLoading) {
-      tops = "Loading...";
+      tops = <Spinner />;
     } else if (posts.length > 0) {
       tops = posts.map(post => {
         const showActions = post.user.login === currentUser.login;

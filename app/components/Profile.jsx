@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Avatar from 'components/Avatar';
+import Spinner from 'components/Spinner';
 import NewTopic from 'components/NewTopic';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
@@ -38,7 +39,7 @@ export default React.createClass({
   render() {
     const {user, userLoading, currentUser} = this.state;
     const {params} = this.props;
-    if (!user || userLoading) return <div>Loading...</div>;
+    if (!user || userLoading) return <Spinner />;
 
     const avatar = <Link className="navigation-link" to={"/@" + user.login}><Avatar url={user.avatar_url} /></Link>;
     const userLink = <Link className="navigation-link" to={"/@" + user.login} data-type="login">{user.login}</Link>;

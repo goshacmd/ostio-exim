@@ -1,5 +1,6 @@
 import React from 'react';
 import postsStore from 'stores/posts';
+import Spinner from 'components/Spinner';
 import PostCard from 'components/PostCard';
 
 export default React.createClass({
@@ -22,7 +23,7 @@ export default React.createClass({
       let posts;
 
       if (this.state.postsLoading) {
-        posts = "Loading...";
+        posts = <Spinner />;
       } else if (this.state.posts.length > 0) {
         posts = this.state.posts.map(post => <PostCard post={post} inFeed={true} />);
       } else {
