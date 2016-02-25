@@ -6,6 +6,14 @@ import Spinner from 'components/Spinner';
 import postsStore from 'stores/posts';
 import usersStore from 'stores/users';
 
+const UserCard = ({ user }) => {
+  return <span className="user animated-item-view animated-item-view-end">
+    <Link className="user-organization organization" to={'/@' + user.login} title={user.login}>
+      <Avatar url={user.avatar_url} />
+    </Link>
+  </span>;
+};
+
 export default React.createClass({
   mixins: [
     postsStore.connect('postsLoading', 'posts'),
@@ -33,13 +41,7 @@ export default React.createClass({
     if (!this.state.users || this.state.usersLoading) {
       users = <Spinner />;
     } else if (this.state.users.length > 0) {
-      users = this.state.users.map(user => {
-        return <span className="user animated-item-view animated-item-view-end">
-          <Link className="user-organization organization" to={'/@' + user.login} title={user.login}>
-            <Avatar url={user.avatar_url} />
-          </Link>
-        </span>;
-      });
+      users = this.state.users.map(user => <UserCard user={user} />);
     } else {
       users = "No users.";
     }

@@ -5,6 +5,20 @@ import Spinner from 'components/Spinner';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
+const RepoCard = ({ user, repo }) => {
+  return <li className="user-repo animated-item-view animated-item-view-end">
+    <Link to={"/@" + user.login + "/" + repo.name}>{repo.name}</Link>
+  </li>
+};
+
+const OrgCard = ({ item }) => {
+  return <span className="user animated-item-view animated-item-view-end">
+    <Link to={"/@" + item.login} title={item.login} className="user-organization organization">
+      <Avatar url={item.avatar_url} />
+    </Link>
+  </span>;
+};
+
 export default React.createClass({
   mixins: [
     reposStore.connect('reposLoading', 'repos'),
@@ -27,41 +41,38 @@ export default React.createClass({
     if (!repositories || this.state.reposLoading) {
       repos = <Spinner />;
     } else if (repositories.length > 0) {
-      repos = repositories.map(repo => {
-        return <li className="user-repo animated-item-view animated-item-view-end">
-          <Link to={"/@" + user.login + "/" + repo.name}>{repo.name}</Link>
-        </li>
-      });
-
+      repos = repositories.map(repo => <RepoCard user={user} repo={repo} />);
       repos = <ul className="user-repo-list">{repos}</ul>;
     } else {
       repos = "No repositories.";
     }
 
-    const userList = (user.type === 'Organization' ? user.owners : user.organizations).map(item => {
-      return <span className="user animated-item-view animated-item-view-end">
-        <Link to={"/@" + item.login} title={item.login} className="user-organization organization">
-          <Avatar url={item.avatar_url} />
-        </Link>
-      </span>
-    });
+    const isOrg = user.type === 'Organization';
+    const orgItems = isOrg ? user.owners : user.organizations;
 
-    const orgListing = <div className="user-organization-list-container">
-      <div className="users">
-        <h4>{user.type === 'Organization' ? 'Owners' : 'Organizations'}</h4>
+    let orgListing;
 
-        <div className="users-list">{userList}</div>
-      </div>
-    </div>;
+    if (orgItems.length > 0) {
+      const userList = orgItems.map(item => <OrgCard item={item} />);
+
+      orgListing = <div className="user-organization-list-container">
+        <div className="users">
+          <h4>{isOrg ? 'Owners' : 'Organizations'}</h4>
+
+          <div className="users-list">{userList}</div>
+        </div>
+      </div>;
+    }
 
     return <div>
-      {userList.length > 0 ? orgListing : null}
+      {orgListing}
+
       <div className="user-repo-list-container">
         <h4>
           Repositories <a className="icon icon-github" href={"https://github.com/" + user.login} />
-
-          {repos}
         </h4>
+
+        {repos}
       </div>
     </div>;
   }
