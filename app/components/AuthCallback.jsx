@@ -2,6 +2,10 @@ import React from 'react';
 import usersStore from 'stores/users';
 
 export default React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     usersStore.connect('currentUser')
   ],
@@ -9,9 +13,9 @@ export default React.createClass({
   componentDidMount() {
     const {query} = this.props.location;
     const {accessToken, login} = query;
-    const {history} = this.props;
+    const {router} = this.context;
     usersStore.actions.login(accessToken).then(() => {
-      history.push('/@' + login);
+      router.push('/@' + login);
     });
   },
 
