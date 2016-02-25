@@ -5,6 +5,7 @@ import postsStore from 'stores/posts';
 import PostCard from 'components/PostCard';
 import NewPost from 'components/NewPost';
 import Spinner from 'components/Spinner';
+import Animated from 'components/Animated';
 
 export default React.createClass({
   mixins: [
@@ -40,7 +41,7 @@ export default React.createClass({
         const {login, repo} = this.props.params;
         const onDelete = () => postsStore.actions.deletePost(login, repo, topic.number, post.id).then(() => this.posted());
         const onEdit = body => postsStore.actions.updatePost(login, repo, topic.number, post.id, body).then(() => this.posted());
-        return <PostCard {...{showActions, onDelete, onEdit, post}} />;
+        return <Animated><PostCard {...{showActions, onDelete, onEdit, post}} /></Animated>;
       });
     } else {
       tops = "No posts."

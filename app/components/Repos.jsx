@@ -2,17 +2,18 @@ import React from 'react';
 import {Link} from 'react-router';
 import Avatar from 'components/Avatar';
 import Spinner from 'components/Spinner';
+import Animated from 'components/Animated';
 import usersStore from 'stores/users';
 import reposStore from 'stores/repos';
 
 const RepoCard = ({ user, repo }) => {
-  return <li className="user-repo animated-item-view animated-item-view-end">
+  return <li className="user-repo">
     <Link to={"/@" + user.login + "/" + repo.name}>{repo.name}</Link>
   </li>
 };
 
 const OrgCard = ({ item }) => {
-  return <span className="user animated-item-view animated-item-view-end">
+  return <span className="user">
     <Link to={"/@" + item.login} title={item.login} className="user-organization organization">
       <Avatar url={item.avatar_url} />
     </Link>
@@ -41,7 +42,7 @@ export default React.createClass({
     if (!repositories || this.state.reposLoading) {
       repos = <Spinner />;
     } else if (repositories.length > 0) {
-      repos = repositories.map(repo => <RepoCard user={user} repo={repo} />);
+      repos = repositories.map(repo => <Animated><RepoCard user={user} repo={repo} /></Animated>);
       repos = <ul className="user-repo-list">{repos}</ul>;
     } else {
       repos = "No repositories.";
@@ -53,7 +54,7 @@ export default React.createClass({
     let orgListing;
 
     if (orgItems.length > 0) {
-      const userList = orgItems.map(item => <OrgCard item={item} />);
+      const userList = orgItems.map(item => <Animated inline={true}><OrgCard item={item} /></Animated>);
 
       orgListing = <div className="user-organization-list-container">
         <div className="users">

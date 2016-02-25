@@ -1,3 +1,5 @@
+import Animated from 'components/Animated';
+
 export default () => {
-  return <div className="loading" />;
+  return <Animated><div className="loading" /></Animated>;
 };

@@ -3,11 +3,12 @@ import {Link} from 'react-router';
 import PostCard from 'components/PostCard';
 import Avatar from 'components/Avatar';
 import Spinner from 'components/Spinner';
+import Animated from 'components/Animated';
 import postsStore from 'stores/posts';
 import usersStore from 'stores/users';
 
 const UserCard = ({ user }) => {
-  return <span className="user animated-item-view animated-item-view-end">
+  return <span className="user">
     <Link className="user-organization organization" to={'/@' + user.login} title={user.login}>
       <Avatar url={user.avatar_url} />
     </Link>
@@ -33,7 +34,7 @@ export default React.createClass({
     if (!this.state.posts || this.state.postsLoading) {
       posts = <Spinner />;
     } else if (this.state.posts.length > 0) {
-      posts = this.state.posts.map(post => <PostCard post={post} inFeed={true} />)
+      posts = this.state.posts.map(post => <Animated><PostCard post={post} inFeed={true} /></Animated>);
     } else {
       posts = "No posts.";
     }
@@ -41,7 +42,7 @@ export default React.createClass({
     if (!this.state.users || this.state.usersLoading) {
       users = <Spinner />;
     } else if (this.state.users.length > 0) {
-      users = this.state.users.map(user => <UserCard user={user} />);
+      users = this.state.users.map(user => <Animated inline={true}><UserCard user={user} /></Animated>);
     } else {
       users = "No users.";
     }

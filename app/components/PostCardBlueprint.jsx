@@ -8,7 +8,7 @@ export default React.createClass({
 
     const userUrl = '/@' + user.login;
 
-    return <article className="post animated-item-view animated-item-view-end">
+    return <article className="post">
       <Link className="post-avatar-container" to={userUrl}>
         <Avatar className="post-avatar" url={user.avatar_url} />
       </Link>

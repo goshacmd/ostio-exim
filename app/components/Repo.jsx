@@ -2,11 +2,12 @@ import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
 import Spinner from 'components/Spinner';
+import Animated from 'components/Animated';
 import topicsStore from 'stores/topics';
 
 const TopicCard = ({ topic }) => {
   const url = "/@" + topic.repo.user.login + "/" + topic.repo.name + "/topics/" + topic.number;
-  return <div className="repo-topic animated-view-item animated-view-item-end">
+  return <div className="repo-topic">
     <div className="repo-topic-header">
       <Link to={url}>#{topic.number}</Link> <Link to={url}>{topic.title}</Link>
     </div>
@@ -35,7 +36,7 @@ export default React.createClass({
     if (this.state.topicsLoading) {
       tops = <Spinner />;
     } else if (topics.length > 0) {
-      tops = topics.map(topic => <TopicCard topic={topic} />);
+      tops = topics.map(topic => <Animated><TopicCard topic={topic} /></Animated>);
     } else {
       tops = "No topics."
     }
