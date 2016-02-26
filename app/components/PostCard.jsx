@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
+import {escapeExpression, unescapeExpression} from 'lib/util';
 import Form from 'components/common/Form';
 import Button from 'components/common/Button';
 import Avatar from 'components/common/Avatar';
@@ -32,8 +33,24 @@ const PostEditor = React.createClass({
   }
 });
 
+
 const PostRenderer = ({ text }) => {
-  const rendered = marked(text, {gfm: true, sanitize: true});
+  const string = escapeExpression(text).replace(/&#x60;/g, '`');
+  const rendered = marked(text, {
+    gfm: true,
+    sanitize: true,
+    highlight: (code, language) => {
+      if (language && language in hljs.LANGUAGES) {
+        const raw = unescapeExpression(code);
+        try {
+          return hljs.highlight(language, raw).value;
+        } catch (e) {
+          return code;
+        }
+      }
+      return code;
+    }
+  });
   return <div className="post-text" dangerouslySetInnerHTML={{__html: rendered}} />;
 };
 
