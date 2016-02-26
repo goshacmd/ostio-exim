@@ -2,10 +2,6 @@ exports.config = {
   npm: {
     enabled: true,
 
-    globals: {
-      React: 'react' // needed because Exim relies on globals at the moment...
-    },
-
     styles: {
       'normalize.css': ['normalize.css']
     }
